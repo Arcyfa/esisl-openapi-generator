@@ -5,7 +5,7 @@
   "infoNameO": "Arcyfa",
   "infoEmail": "arcyfa_github@pm.me",
   "packageUrl": "https://github.com/Arcyfa/esisl-genoa-client",
-  "npmVersion": "0.1.0",
+  "npmVersion": "0.1.1",
   "generatorName": "typescript-fetch",
   "inputSpec": "https://esi.evetech.net/meta/openapi.json",
   "outputDir": "generated/ts-client",
@@ -17,6 +17,6 @@
   "additionalProperties": {
     "npmName": "esisl_genoa_client",
     "packageName": "esisl_genoa_client",
-    "packageVersion": "0.1.0"
+    "packageVersion": "0.1.1"
   }
 }

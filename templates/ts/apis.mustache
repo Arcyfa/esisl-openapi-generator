@@ -322,7 +322,7 @@ export class {{classname}} extends runtime.BaseAPI {
             throw new runtime.RequiredError('apiFacade', 'apiFacade is required in Configuration. Provide it via new Configuration({ apiFacade: myFacade })');
         }
 
-        const response = await api.esi.proxy({
+        const response = await facade.esi.proxy({
             path: urlPath,
             method: '{{httpMethod}}',
             headers: headerParameters,

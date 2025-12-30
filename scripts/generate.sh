@@ -95,7 +95,7 @@ GEN_CMD=(java "${JVM_OPTS[@]}" -jar "$JAR_PATH" generate -c "$CONFIG_PATH" -t "$
 
 # Always run quietly: filter noisy TemplateManager INFO lines but keep WARN/ERROR
 set -o pipefail
-"${GEN_CMD[@]}" 2>&1 | sed -E '/TemplateManager|writing file|\[main\] INFO/d'
+"${GEN_CMD[@]}" 2>&1 | awk '!/TemplateManager/ && !/writing file/ && !/INFO/ && !/Renamed to ModelError/'
 
 exit 0
 

@@ -16,6 +16,7 @@ export interface ConfigurationParameters {
     accessToken?: string | Promise<string> | ((name?: string, scopes?: string[]) => string | Promise<string>); // parameter for oauth2 security
     headers?: HTTPHeaders; //header params we want to use on every request
     credentials?: RequestCredentials; //value for the credentials param we want to use on each request
+    apiFacade?: any; // external facade that provides `.esi.proxy(...)`
 }
 
 export class Configuration {
@@ -23,10 +24,6 @@ export class Configuration {
 
     set config(configuration: Configuration) {
         this.configuration = configuration;
-    }
-
-    get apiFacade(): any | undefined {
-        return this.configuration.apiFacade;
     }
 
     get basePath(): string {
@@ -75,6 +72,10 @@ export class Configuration {
 
     get credentials(): RequestCredentials | undefined {
         return this.configuration.credentials;
+    }
+
+    get apiFacade(): any | undefined {
+        return this.configuration.apiFacade;
     }
 }
 
