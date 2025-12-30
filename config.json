@@ -1,0 +1,20 @@
+{
+  "gitHost": "github.com",
+  "gitUserId": "Arcyfa",
+  "gitRepoId": "esisl-genoa-client",
+  "infoNameO": "Arcyfa",
+  "infoEmail": "arcyfa_github@pm.me",
+  "packageUrl": "https://github.com/Arcyfa/esisl-genoa-client",
+  "generatorName": "typescript-fetch",
+  "inputSpec": "https://esi.evetech.net/meta/openapi.json",
+  "outputDir": "generated/ts-client",
+  "templateDir": "templates/ts",
+  "additionalProperties": {
+    "withInterfaces": true,
+    "withoutRuntimeChecks": true,
+    "stringEnums": true,
+    "npmName": "esisl_genoa_client",
+    "packageName": "esisl_genoa_client",
+    "packageVersion": "0.1.0"
+  }
+}

@@ -1,0 +1,52 @@
+name: Publish Release to TestPyPI
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release tag to upload (if not triggered by release event)'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest release tag 
+        id: latest 
+        run: | 
+          tag=$(gh api repos/${{ github.repository }}/releases/latest --jq .tag_name) 
+          echo "tag=$tag" >> $GITHUB_OUTPUT
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p dist
+          gh release download "${{ steps.tag.outputs.tag }}" --repo "${{ github.repository }}" --dir dist || true
+          ls -la dist
+
+      - name: Verify artifacts exist
+        run: |
+          shopt -s nullglob || true
+          files=(dist/*)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No artifacts found in dist/"
+            exit 1
+          fi
+          for f in "${files[@]}"; do echo "Found $f"; done
+
+      - name: Upload to TestPyPI
+        env:
+          TWINE_USERNAME: ${{ secrets.TEST_PYPI_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_PASSWORD }}
+        run: |
+          python -m pip install --upgrade pip twine
+          twine upload --repository-url https://test.pypi.org/legacy/ dist/*
