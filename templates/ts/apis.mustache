@@ -4,6 +4,7 @@
 
 
 import * as runtime from '../runtime{{importFileExtension}}';
+
 {{#imports.0}}
 import type {
   {{#imports}}
@@ -186,6 +187,7 @@ export class {{classname}} extends runtime.BaseAPI {
 
         {{/isArray}}
         {{/headerParams}}
+        /*
         {{#authMethods}}
         {{#isBasic}}
         {{#isBasicBasic}}
@@ -226,6 +228,7 @@ export class {{classname}} extends runtime.BaseAPI {
 
         {{/isOAuth}}
         {{/authMethods}}
+        */
         {{#hasFormParams}}
         const consumes: runtime.Consume[] = [
             {{#consumes}}
@@ -314,7 +317,12 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/isDateTimeType}}
         {{/pathParams}}
 
-        const response = await this.request({
+        const facade = this.configuration?.apiFacade;
+        if (!facade) {
+            throw new runtime.RequiredError('apiFacade', 'apiFacade is required in Configuration. Provide it via new Configuration({ apiFacade: myFacade })');
+        }
+
+        const response = await api.esi.proxy({
             path: urlPath,
             method: '{{httpMethod}}',
             headers: headerParameters,

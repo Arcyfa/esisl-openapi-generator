@@ -25,6 +25,10 @@ export class Configuration {
         this.configuration = configuration;
     }
 
+    get apiFacade(): any | undefined {
+        return this.configuration.apiFacade;
+    }
+
     get basePath(): string {
         return this.configuration.basePath != null ? this.configuration.basePath : BASE_PATH;
     }

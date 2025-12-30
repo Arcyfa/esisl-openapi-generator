@@ -86,7 +86,10 @@ if [ ! -f "$JAR_PATH" ]; then
   fi
 fi
 
-
+# stop linter from complaining
+mkdir -p generated/ts-client/src/
+cp -f temp/serviceFacade.ts generated/ts-client/src/
+# --model-name-prefix Api
 
 GEN_CMD=(java "${JVM_OPTS[@]}" -jar "$JAR_PATH" generate -c "$CONFIG_PATH" -t "$TEMPLATE_DIR" --skip-validate-spec)
 
