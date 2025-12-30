@@ -2,11 +2,6 @@ name: Build
 
 on:
   workflow_dispatch:
-    inputs:
-      python-version:
-        description: 'Python version to use for tests/build'
-        required: false
-        default: '3.13'
 
 permissions: 
   contents: write
@@ -24,10 +19,10 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
-          python-version: ${{ github.event.inputs.python-version }}
+          node-version: '18'
 
       - name: Make scripts executable
         run: chmod +x ./scripts/*.sh || true
@@ -35,11 +30,8 @@ jobs:
       - name: Generate client
         run: ./scripts/generate.sh
 
-      - name: Run tests (tox)
-        run: ./scripts/run-tox.sh
-
-      - name: Build package
-        run: ./scripts/build-python.sh
+      - name: Build TypeScript package
+        run: ./scripts/build-ts.sh
 
       - name: Commit and tag package
         env:
@@ -48,5 +40,5 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           VERSION="$(./scripts/get_package_version.sh)"
-          gh release create v${VERSION} ./generated/python-client/dist/esi_genoa_client*
+          gh release create v${VERSION} ./generated/ts-client/*.tgz
 
